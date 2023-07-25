@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống quản lý vườn cây thanh long</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..40,100..700,0..1,-50..200" />
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings:
+          'FILL' 0,
+          'wght' 400,
+          'GRAD' 0,
+          'opsz' 40
+        }
+        </style>
+</head>
+<body>
+    
+    <header>
+        <p>HỆ THỐNG QUẢN LÝ VƯỜN THANH LONG</p>
+    </header>
+
+    <div class="seperate" style="margin-top: 70px">
+        <a id="info_hr_txt" href="#" onclick="toggle_section('info')">Ẩn</a>
+        <hr>
+    </div>
+    <section class="grid_4_col" id="section_info">
+        <div class="node">
+            <p class="node_label">CẢM BIẾN</p>
+            <div class="two_col_sensor">
+                <div class="col">
+                    <p>Nhiệt độ:</p>
+                    <p>Độ ẩm:</p>
+                    <p>Mưa:</p>
+                    <p>Ánh sáng:</p>
+                </div>
+                <div class="col">
+                    <p><span id="tem"></span>&deg;C</p>
+                    <p><span id="hum"></span>%</p>
+                    <p><span id="rain"></span></p>
+                    <p><span id="lux"></span> lux</p>
+                </div>
+            </div>
+        </div>
+        <div class="node">
+            <p class="node_label">BẢNG ĐIỀU KHIỂN</p>
+            <div class="button_ctn">
+                <button id="lamp_btn" class="button_off" onclick="lamp_btn()">ĐÈN</button>
+            </div>
+            <div class="button_ctn">
+                <button id="pump_btn" class="button_off" onclick="pump_btn()">MÁY BƠM</button>
+            </div>
+        </div>
+        <div class="node" style="overflow: auto;">
+            <p class="node_label">CHUẨN ĐOÁN BỆNH(<span id="disease_num"></span>)</p>
+            <div id="disease_ctn">
+            </div>
+        </div>
+        <div class="node" id="notify_box">
+            <p class="node_label">THÔNG BÁO(<span id="notify_num"></span>)</p>
+            <div id="notify_ctn">
+            </div>
+        </div>
+    </section>
+
+    <div class="seperate">
+        <a id="chart_hr_txt" href="#" onclick="toggle_section('chart')">Ẩn</a>
+        <hr>
+    </div>
+    <section id="section_chart">
+        <div class="grid_4_col">
+            <div class="node">
+                <p class="node_label">NHIỆT ĐỘ</p>
+                <div class="two_col_sensor">
+                    <div class="col">
+                        <p>Cao nhất:</p>
+                        <p>Thấp nhất:</p>
+                        <p>Trung bình:</p>
+                    </div>
+                    <div class="col">
+                        <p><span id="max_tem"></span>&deg;C</p>
+                        <p><span id="min_tem"></span>&deg;C</p>
+                        <p><span id="avr_tem"></span>&deg;C</p>
+                    </div>
+                </div>
+            </div>
+            <div class="node">
+                <p class="node_label">ĐỘ ẨM</p>
+                <div class="two_col_sensor">
+                    <div class="col">
+                        <p>Cao nhất:</p>
+                        <p>Thấp nhất:</p>
+                        <p>Trung bình:</p>
+                    </div>
+                    <div class="col">
+                        <p><span id="max_hum"></span>%</p>
+                        <p><span id="min_hum"></span>%</p>
+                        <p><span id="avr_hum"></span>%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="node">
+                <p class="node_label">LƯỢNG MƯA</p>
+                <div class="two_col_sensor">
+                    <div class="col">
+                        <p>Cao nhất:</p>
+                        <p>Thấp nhất:</p>
+                        <p>Trung bình:</p>
+                    </div>
+                    <div class="col">
+                        <p><span id="max_rain"></span>%</p>
+                        <p><span id="min_rain"></span>%</p>
+                        <p><span id="avr_rain"></span>%</p>
+                    </div>
+                </div>
+            </div>
+            <div class="node">
+                <p class="node_label">ÁNH SÁNG</p>
+                <div class="two_col_sensor">
+                    <div class="col">
+                        <p>Cao nhất:</p>
+                        <p>Thấp nhất:</p>
+                        <p>Trung bình:</p>
+                    </div>
+                    <div class="col">
+                        <p><span id="max_lux"></span> lux</p>
+                        <p><span id="min_lux"></span> lux</p>
+                        <p><span id="avr_lux"></span> lux</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_3_col">
+            <div class="button_ctn">
+                <button class="sign_btn" onclick="next_day()">&lt;</button>
+            </div>
+            <div style="font-size: 20px;">Ngày <span id="chart_day"></span></div>
+            <div class="button_ctn">
+                <button class="sign_btn" onclick="previous_day()">&gt;</button>
+            </div>
+        </div>
+        <div class="grid_2_col" id="chart_ctn">
+            <canvas id="tem_chart"></canvas>
+            <canvas id="hum_chart"></canvas>
+            <canvas id="rain_chart"></canvas>
+            <canvas id="lux_chart"></canvas>
+        </div>
+    </section>
+
+    <div class="seperate">
+        <a id="node_hr_txt" href="#" onclick="toggle_section('node')">Ẩn</a>
+        <hr>
+    </div>
+    <section class="grid_4_col" id="section_node">
+    </section>        
+        
+    <footer>
+    </footer>
+
+</body>
+<script src="static/script.js"></script>
+<script src="static/node.js"></script>
+<script src="static/chart.js"></script>
+<script src="static/init.js"></script>
+<script src="static/notify.js"></script>
+<script src="static/interval.js"></script>
+
+</html>
